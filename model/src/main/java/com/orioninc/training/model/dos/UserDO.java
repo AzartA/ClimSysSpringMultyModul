@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -15,12 +17,14 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -47,12 +51,14 @@ public class UserDO implements User, Serializable {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue
+    @SequenceGenerator( name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="user_seq")
     private long id;
 
     @Column(name = "name", length = 64, nullable = false)
     private String name;
 
+    @EqualsAndHashCode.Include
     @Column(name = "login", length = 48, nullable = false, unique = true)
     private String login;
 
@@ -66,19 +72,17 @@ public class UserDO implements User, Serializable {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name = "USER_SENSOR_SET")
-    private Set<SensorDO> sensors;
+    private Set<SensorDO> sensors = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE_SET")
-    private Set<RoleDO> roles;
+    private Set<RoleDO> roles = new HashSet<>();
 
     public UserDO(User user) {
         name = user.getName();
         login = user.getLogin();
         password = user.getPassword();
         properties = user.getProperties();
-        sensors = new HashSet<>();
-        roles = new HashSet<>();
     }
 
     public UserDO(String name,String password) {
@@ -87,11 +91,15 @@ public class UserDO implements User, Serializable {
         this.password = password;
         this.properties = new HashSet<>();
     }
+    public UserDO(String name, String login, String password) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.properties = new HashSet<>();
+    }
 
     public boolean addRoles(Set<RoleDO> roles) {
-        boolean addedRoles = this.roles.addAll(roles);
-        boolean rolesAdded = roles.stream().map(s -> s.getUsers().add(this)).reduce(true, (a, b) -> a && b);
-        return rolesAdded && addedRoles;
+        return this.roles.addAll(roles);
     }
 
     public void removeRoles(Set<RoleDO> roles) {
@@ -113,4 +121,6 @@ public class UserDO implements User, Serializable {
     public String roles() {
         return "[" + roles.stream().map(RoleDO::getName).collect(Collectors.joining(",")) + "]";
     }
+
+
 }

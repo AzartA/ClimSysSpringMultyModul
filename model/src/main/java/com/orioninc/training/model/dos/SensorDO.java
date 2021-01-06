@@ -38,6 +38,7 @@ public class SensorDO implements Sensor, Serializable {
     @GeneratedValue
     private long id;
 
+    @EqualsAndHashCode.Include
     @Column(name = "name", nullable = false, length = 48, unique = true)
     private String name;
 

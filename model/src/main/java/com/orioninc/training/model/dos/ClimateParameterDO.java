@@ -50,6 +50,7 @@ public class ClimateParameterDO implements ClimateParameter, Serializable {
     @GeneratedValue
     private long id;
 
+    @EqualsAndHashCode.Include
     @Column(name = "name", length = 48, nullable = false, unique = true)
     private String name;
 

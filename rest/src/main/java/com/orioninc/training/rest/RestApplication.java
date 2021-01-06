@@ -18,6 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ConfigurationPropertiesScan({"com.orioninc.training"})
 @EntityScan(basePackages = {"com.orioninc.training.model", "com.orioninc.training.model_api"})
 //@EntityScan(basePackages = {"com.orioninc.training.*"})
+
 public class RestApplication {
 	@Autowired
 	private UserRepo userRepo;
@@ -25,15 +26,13 @@ public class RestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestApplication.class, args);
-
 	}
+
 	@EventListener(ApplicationReadyEvent.class)
-	private void testJpaMethods(){
-
-		LOG.debug("start testJpaMethods()");
-		userRepo.findAll().forEach(it-> System.out.println(it));
-		LOG.debug("end testJpaMethods()");
-
+	private void testJpaMethods() {
+		LOG.info("start testJpaMethods()");
+		userRepo.findAll().forEach(System.out::println);
+		LOG.info("end testJpaMethods()");
 	}
 
 }
