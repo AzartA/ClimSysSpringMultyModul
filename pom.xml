@@ -13,8 +13,10 @@
     </parent>
 
     <properties>
+        <java.version>1.8</java.version>
         <project.version>1.0-SNAPSHOT</project.version>
     </properties>
+
     <groupId>com.orioninc.training</groupId>
     <artifactId>multimodul-project</artifactId>
     <version>1.0-SNAPSHOT</version>
