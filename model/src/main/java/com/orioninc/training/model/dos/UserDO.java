@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -51,8 +49,8 @@ public class UserDO implements User, Serializable {
 
     @EqualsAndHashCode.Include
     @Id
-    @SequenceGenerator( name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private long id;
 
     @Column(name = "name", length = 64, nullable = false)
@@ -65,16 +63,16 @@ public class UserDO implements User, Serializable {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "user_properties",
             joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> properties = new HashSet<>(4);
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "USER_SENSOR_SET")
     private Set<SensorDO> sensors = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLE_SET")
     private Set<RoleDO> roles = new HashSet<>();
 
@@ -85,12 +83,13 @@ public class UserDO implements User, Serializable {
         properties = user.getProperties();
     }
 
-    public UserDO(String name,String password) {
+    public UserDO(String name, String password) {
         this.name = name;
         this.login = name;
         this.password = password;
         this.properties = new HashSet<>();
     }
+
     public UserDO(String name, String login, String password) {
         this.name = name;
         this.login = login;
