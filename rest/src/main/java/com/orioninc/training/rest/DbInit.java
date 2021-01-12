@@ -19,8 +19,8 @@ public class DbInit {
     @PostConstruct
     public void postConstruct() {
         LOG.debug("postConstruct");
-        if (userService.count() == 0) {
+       /* if (userService.count() == 0) {
             userService.initDB();
-        }
+        }*/
     }
 }
