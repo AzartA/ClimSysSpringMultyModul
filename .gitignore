@@ -9,10 +9,4 @@
 target/
 
 #Spring Shell
-<<<<<<< HEAD
 spring-shell.log
-*.class
-/model/src/test/java/com/orioninc/training/model
-=======
-spring-shell.log
->>>>>>> 6746019399ea422acc38abe2f2093329780eb8c2
