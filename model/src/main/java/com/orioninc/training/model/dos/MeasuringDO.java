@@ -1,6 +1,6 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model_api.model.Measuring;
+import com.orioninc.training.model.entities.Measuring;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

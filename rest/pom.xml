@@ -3,6 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<properties>
+		<testcontainers.version>1.15.0</testcontainers.version>
+	</properties>
+
 	<parent>
 		<artifactId>multimodul-project</artifactId>
 		<groupId>com.orioninc.training</groupId>
@@ -14,21 +18,14 @@
 	<name>Rest</name>
 	<description>Rest with Spring Boot</description>
 
-	<properties>
-		<testcontainers.version>1.15.0</testcontainers.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.orioninc.training</groupId>
 			<artifactId>model</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.orioninc.training</groupId>
-			<artifactId>rest-api</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
+			<artifactId>view</artifactId>
 		</dependency>
 
 		<dependency>

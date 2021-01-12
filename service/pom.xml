@@ -9,9 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>view</artifactId>
+    <artifactId>service</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <dependencies>
         <dependency>
             <groupId>com.orioninc.training</groupId>
@@ -19,8 +18,14 @@
         </dependency>
         <dependency>
             <groupId>com.orioninc.training</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>repo</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>

@@ -1,7 +1,7 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model_api.model.ClimateParameter;
-import com.orioninc.training.model_api.model.Unit;
+import com.orioninc.training.model.entities.ClimateParameter;
+import com.orioninc.training.model.entities.Unit;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

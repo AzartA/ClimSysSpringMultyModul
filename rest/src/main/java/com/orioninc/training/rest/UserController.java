@@ -2,7 +2,6 @@ package com.orioninc.training.rest;
 
 import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.model.repo.UserRepo;
-import com.orioninc.training.model_api.model.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

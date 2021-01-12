@@ -7,20 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="model-api" />
-        <module name="rest-api" />
         <module name="rest" />
         <module name="model" />
         <module name="view" />
+        <module name="service" />
+        <module name="repo" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="model" options="-parameters" />
-      <module name="model-api" options="-parameters" />
+      <module name="repo" options="-parameters" />
       <module name="rest" options="-parameters" />
-      <module name="rest-api" options="-parameters" />
+      <module name="service" options="-parameters" />
       <module name="view" options="-parameters" />
     </option>
   </component>

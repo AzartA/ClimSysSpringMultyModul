@@ -1,7 +1,7 @@
 package com.orioninc.training.model.dos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.orioninc.training.model_api.model.Capability;
+import com.orioninc.training.model.entities.Capability;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
