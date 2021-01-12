@@ -7,3 +7,6 @@
 # Maven
 # log/
 target/
+
+#Spring Shell
+spring-shell.log

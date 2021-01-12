@@ -54,4 +54,10 @@ public class UserService {
         userRepo.findAll().forEach(System.out::println);
         LOG.debug("end testJpaMethods()");
     }
+
+    public String showUsers() {
+        StringBuilder sb = new StringBuilder();
+        userRepo.findAll().forEach(user -> sb.append(user).append("\n"));
+        return sb.toString();
+    }
 }
