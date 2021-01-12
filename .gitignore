@@ -7,7 +7,8 @@
 # Maven
 # log/
 target/
-*/target/
 
 #Spring Shell
 spring-shell.log
+*.class
+/model/src/test/java/com/orioninc/training/model
