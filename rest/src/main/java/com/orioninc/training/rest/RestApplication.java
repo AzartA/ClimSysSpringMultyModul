@@ -1,5 +1,6 @@
 package com.orioninc.training.rest;
 
+import com.orioninc.training.service.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {"com.orioninc.training"})
 @ConfigurationPropertiesScan({"com.orioninc.training"})
 @EntityScan(basePackages = {"com.orioninc.training.model"})
-
 public class RestApplication {
     @Autowired
     private UserService userService;
@@ -25,9 +25,9 @@ public class RestApplication {
         SpringApplication.run(RestApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+    /*@EventListener(ApplicationReadyEvent.class)
     private void testJpaMethods() {
         userService.printUsers();
-    }
+    }*/
 
 }

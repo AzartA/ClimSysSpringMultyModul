@@ -1,5 +1,8 @@
-package com.orioninc.training.rest;
+package com.orioninc.training.rest.shell;
 
+import com.orioninc.training.model.dos.UserDO;
+import com.orioninc.training.service.api.UserService;
+import com.orioninc.training.service.impl.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -7,6 +10,7 @@ import org.springframework.shell.standard.ShellMethod;
 @ShellComponent
 public class ShellComands {
     private final UserService userService;
+
 
     @Autowired
     public ShellComands(UserService userService) {
@@ -23,4 +27,10 @@ public class ShellComands {
         userService.initDB();
         return userService.showUsers();
     }
+
+    @ShellMethod("Show users in DB.")
+    public String showUsers(){
+        return userService.showUsers();
+    }
+
 }

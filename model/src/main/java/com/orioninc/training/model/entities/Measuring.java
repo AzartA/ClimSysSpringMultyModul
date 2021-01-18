@@ -1,11 +1,13 @@
 package com.orioninc.training.model.entities;
 
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public interface Measuring extends Entity {
-    SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.MEDIUM);
 
-    java.sql.Timestamp getTimestamp();
+    OffsetDateTime getTimestamp();
 
     Entity getSensor();
 

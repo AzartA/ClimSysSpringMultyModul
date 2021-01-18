@@ -1,9 +1,11 @@
-package com.orioninc.training.rest;
+package com.orioninc.training.service.impl;
 
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
-import com.orioninc.training.model.repo.RoleRepo;
-import com.orioninc.training.model.repo.UserRepo;
+import com.orioninc.training.model.entities.User;
+import com.orioninc.training.repo.api.RoleRepo;
+import com.orioninc.training.repo.api.UserRepo;
+import com.orioninc.training.service.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -19,14 +22,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserService {
-    private static final Logger LOG = LoggerFactory.getLogger(RestApplication.class);
-    @Autowired
+public class UserServiceImpl implements UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepo userRepo;
-    @Autowired
     private RoleRepo roleRepo;
 
+    @Autowired
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo) {
+        this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
+    }
 
+    @Override
     public void initDB() {
         LOG.debug("init DB");
         UserDO user1 = new UserDO("bob", "Bobby", "bob");
@@ -38,8 +45,19 @@ public class UserService {
         userRepo.saveAll(Arrays.asList(user1, user2));
     }
 
+    @Override
     public Long count() {
         return userRepo.count();
+    }
+
+    @Override
+    public List<User> getAll(){
+        return userRepo.findAll().stream().map(uDO -> (User) uDO).collect(Collectors.toList());
+    }
+
+    @Override
+    public User getUser(Long id) {
+        return userRepo.getOne(id);
     }
 
     private Set<RoleDO> getRole(String... role) {
@@ -49,12 +67,14 @@ public class UserService {
         return getRoles.apply(filter);
     }
 
+    @Override
     public void printUsers() {
         LOG.debug("start testJpaMethods()");
         userRepo.findAll().forEach(System.out::println);
         LOG.debug("end testJpaMethods()");
     }
 
+    @Override
     public String showUsers() {
         StringBuilder sb = new StringBuilder();
         userRepo.findAll().forEach(user -> sb.append(user).append("\n"));
