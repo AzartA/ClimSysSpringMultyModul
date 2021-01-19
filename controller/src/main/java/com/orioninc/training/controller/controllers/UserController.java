@@ -1,6 +1,6 @@
-package com.orioninc.training.rest.controllers;
+package com.orioninc.training.controller.controllers;
 
-import com.orioninc.training.rest.dtos.UserDTO;
+import com.orioninc.training.controller.dtos.UserDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

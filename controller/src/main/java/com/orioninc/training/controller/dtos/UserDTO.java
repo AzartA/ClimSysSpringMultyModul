@@ -1,4 +1,4 @@
-package com.orioninc.training.rest.dtos;
+package com.orioninc.training.controller.dtos;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.entities.Sensor;
 import lombok.AllArgsConstructor;

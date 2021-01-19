@@ -1,4 +1,4 @@
-package com.orioninc.training.rest.dtos;
+package com.orioninc.training.controller.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.orioninc.training.rest.dtos;
+package com.orioninc.training.controller.dtos;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

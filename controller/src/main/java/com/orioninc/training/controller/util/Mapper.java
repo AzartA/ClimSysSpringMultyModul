@@ -1,4 +1,4 @@
-package com.orioninc.training.rest.util;
+package com.orioninc.training.controller.util;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

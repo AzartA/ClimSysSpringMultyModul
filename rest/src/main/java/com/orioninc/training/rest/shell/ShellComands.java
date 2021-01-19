@@ -1,8 +1,6 @@
 package com.orioninc.training.rest.shell;
 
-import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.service.api.UserService;
-import com.orioninc.training.service.impl.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
