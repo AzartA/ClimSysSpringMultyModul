@@ -1,5 +1,7 @@
 package com.orioninc.training.view.api;
 
+import com.orioninc.training.model.entities.Entity;
+import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 
 import java.util.List;
@@ -17,4 +19,6 @@ public interface UserView extends View<User>, ViewType {
     User getUser(Long id);
 
     List<User> getAll();
+
+    List<Role> getRoles();
 }

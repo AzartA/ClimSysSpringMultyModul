@@ -1,5 +1,7 @@
 package com.orioninc.training.rest.controllers;
 
+import com.orioninc.training.rest.dtos.EntityDTO;
+import com.orioninc.training.rest.dtos.RoleDTO;
 import com.orioninc.training.rest.dtos.UserDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,4 +18,8 @@ public interface UserController {
 
     @GetMapping("/{id}")
     UserDTO getUser(@PathVariable Long id);
+
+    @GetMapping("/roles")
+    List<RoleDTO> getRoles();
+
 }

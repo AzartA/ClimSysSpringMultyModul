@@ -25,12 +25,12 @@ public class UserDTO {
     private String password;
 
     private Set<String> properties;
-    private Set<SensorSDTO> sensors;
+    private Set<SensorDTO> sensors;
     private Set<EntityDTO> roles;
 
     @ToString.Include
     public String sensors() {
-        return "[" + sensors.stream().map(SensorSDTO::getName).collect(Collectors.joining(",")) + "]";
+        return "[" + sensors.stream().map(SensorDTO::getName).collect(Collectors.joining(",")) + "]";
     }
 
     @ToString.Include

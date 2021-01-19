@@ -2,21 +2,21 @@ package com.orioninc.training.app.impl;
 
 import com.orioninc.training.model.entities.Entity;
 import com.orioninc.training.app.api.RepositoryFasade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Component
+@Service
 public class RepositoryFasadeImpl implements RepositoryFasade {
-    Map<? extends Entity, JpaRepository<? extends Entity,Long>> repositories;
+    @Autowired
+    Map<String, JpaRepository<? extends Entity,Long>> repositories;
+    Class<? extends  Entity> entityClass;
 
-    public void setRepositories(Map<Entity, JpaRepository<? extends Entity, Long>> repositories) {
-        this.repositories = repositories;
+    public <E extends Entity> JpaRepository<? extends Entity, Long> get(String repoType) {
+        return repositories.get(repoType);
     }
 
-    public <E extends Entity> JpaRepository<E, Long> get(E entityType) {
-        return (JpaRepository<E, Long>) repositories.get(entityType);
 
-    }
 }

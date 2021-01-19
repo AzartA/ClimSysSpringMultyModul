@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,8 +22,9 @@ public class EntityService {
         this.repositoryFasade = repositoryFasade;
     }
 
-    <E extends Entity> List<E> getAll(E entity){
-        return repositoryFasade.get(entity).findAll();
+    List<Entity> getAll(String repoName){
+        return repositoryFasade.get(repoName).findAll().stream().map(entity -> (Entity)entity).collect(Collectors.toList());
     }
+
 
 }

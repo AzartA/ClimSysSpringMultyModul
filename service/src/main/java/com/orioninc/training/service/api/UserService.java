@@ -1,5 +1,7 @@
 package com.orioninc.training.service.api;
 
+import com.orioninc.training.model.entities.Entity;
+import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,4 +15,6 @@ public interface UserService {
     void initDB();
     void printUsers();
     String showUsers();
+
+    List<Role> getRoles();
 }

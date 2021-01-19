@@ -1,5 +1,6 @@
 package com.orioninc.training.view.api;
 
+import com.orioninc.training.model.entities.Entity;
 import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 

@@ -1,6 +1,7 @@
 package com.orioninc.training.view.impl;
 
 import com.orioninc.training.model.entities.Entity;
+import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.service.api.UserService;
 import com.orioninc.training.view.api.FilterParam;
@@ -44,12 +45,17 @@ public class UserViewImpl implements UserView {
 
     @Override
     public User getUser(Long id) {
-        return null;
+        return userService.getUser(id);
     }
 
     @Override
     public List<User> getAll() {
         return userService.getAll();
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return userService.getRoles();
     }
 
     @Override

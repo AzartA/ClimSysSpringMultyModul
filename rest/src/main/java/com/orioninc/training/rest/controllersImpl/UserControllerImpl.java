@@ -1,6 +1,7 @@
 package com.orioninc.training.rest.controllersImpl;
 
 import com.orioninc.training.rest.controllers.UserController;
+import com.orioninc.training.rest.dtos.RoleDTO;
 import com.orioninc.training.rest.dtos.UserDTO;
 import com.orioninc.training.rest.util.Mapper;
 
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -34,12 +34,16 @@ public class UserControllerImpl implements UserController {
     }
 
     public List<UserDTO> all() {
-        return userRepo.findAll().stream().map(userDO -> modelMapper.map(userDO, UserDTO.class)).collect(Collectors.toList());
-        //return mapper.mapList(userRepo.findAll(),UserDTO.class);
+        return mapper.mapList(userView.getAll(),UserDTO.class);
     }
 
     @Override
     public UserDTO getUser(Long id) {
         return modelMapper.map(userView.getUser(id),UserDTO.class);
+    }
+
+    @Override
+    public List<RoleDTO> getRoles() {
+        return mapper.mapList(userView.getRoles(),RoleDTO.class);
     }
 }

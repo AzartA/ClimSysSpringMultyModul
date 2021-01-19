@@ -1,7 +1,9 @@
 package com.orioninc.training.service.impl;
 
+import com.orioninc.training.app.api.RepositoryFasade;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
+import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.app.api.RoleRepo;
 import com.orioninc.training.app.api.UserRepo;
@@ -26,11 +28,13 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepo userRepo;
     private RoleRepo roleRepo;
+    private RepositoryFasade repositoryFasade;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, RepositoryFasade repositoryFasade) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
+        this.repositoryFasade = repositoryFasade;
     }
 
     @Override
@@ -79,5 +83,11 @@ public class UserServiceImpl implements UserService {
         StringBuilder sb = new StringBuilder();
         userRepo.findAll().forEach(user -> sb.append(user).append("\n"));
         return sb.toString();
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return repositoryFasade.get("roleRepo").findAll().stream().map(entity -> (Role)entity).collect(Collectors.toList());
+
     }
 }
