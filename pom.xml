@@ -27,8 +27,8 @@
         <module>repo</module>
         <module>service</module>
         <module>view</module>
+        <module>app</module>
         <module>rest</module>
-        <module>controller</module>
     </modules>
 
     <dependencies>
@@ -80,7 +80,12 @@
             </dependency>
             <dependency>
                 <groupId>com.orioninc.training</groupId>
-                <artifactId>controller</artifactId>
+                <artifactId>rest</artifactId>
+                <version>${moduls.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orioninc.training</groupId>
+                <artifactId>app</artifactId>
                 <version>${moduls.version}</version>
             </dependency>
         </dependencies>

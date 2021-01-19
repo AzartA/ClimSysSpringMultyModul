@@ -1,7 +1,6 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.repo.api.SensorTypeRepo;
-import com.orioninc.training.repo.api.UserRepo;
+import com.orioninc.training.app.api.SensorTypeRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

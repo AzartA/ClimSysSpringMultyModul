@@ -1,7 +1,7 @@
 package com.orioninc.training.service.impl;
 
 import com.orioninc.training.model.entities.Entity;
-import com.orioninc.training.repo.api.RepositoryFasade;
+import com.orioninc.training.app.api.RepositoryFasade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

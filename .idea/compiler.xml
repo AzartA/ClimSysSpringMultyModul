@@ -3,22 +3,27 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Annotation profile for multimodul-project" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="rest" />
+        <module name="view" />
+        <module name="model" />
+        <module name="service" />
+        <module name="repo" />
+      </profile>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="rest" />
-        <module name="model" />
-        <module name="view" />
-        <module name="controller" />
-        <module name="service" />
-        <module name="repo" />
+        <module name="app" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="controller" options="-parameters" />
+      <module name="app" options="-parameters" />
       <module name="model" options="-parameters" />
       <module name="repo" options="-parameters" />
       <module name="rest" options="-parameters" />
