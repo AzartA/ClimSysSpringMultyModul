@@ -1,12 +1,12 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.app.api.RepositoryFasade;
+import com.orioninc.training.api.RepositoryFasade;
+import com.orioninc.training.api.RoleRepo;
+import com.orioninc.training.api.UserRepo;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
-import com.orioninc.training.app.api.RoleRepo;
-import com.orioninc.training.app.api.UserRepo;
 import com.orioninc.training.service.api.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,13 +29,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepo userRepo;
-    private RoleRepo roleRepo;
     private RepositoryFasade repositoryFasade;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, RepositoryFasade repositoryFasade) {
+    public UserServiceImpl(UserRepo userRepo, RepositoryFasade repositoryFasade) {
         this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
         this.repositoryFasade = repositoryFasade;
     }
 
@@ -64,10 +64,17 @@ public class UserServiceImpl implements UserService {
         return userRepo.getOne(id);
     }
 
+    @Override
+    public Optional<? extends User> findUser(Long id) {
+        return userRepo.findById(id);
+    }
+
     private Set<RoleDO> getRole(String... role) {
         Predicate<RoleDO> filter = r -> Arrays.asList(role).contains(r.getName());
-        Function<Predicate<RoleDO>, Set<RoleDO>> getRoles = f -> roleRepo.findAll()
-                .stream().filter(f).collect(Collectors.toSet());
+        Function<Predicate<RoleDO>, Set<RoleDO>> getRoles = f -> repositoryFasade.get(RoleRepo.class).findAll()
+                .stream()
+                .filter(f)
+                .collect(Collectors.toSet());
         return getRoles.apply(filter);
     }
 
@@ -86,8 +93,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Role> getRoles() {
-        return repositoryFasade.get("roleRepo").findAll().stream().map(entity -> (Role)entity).collect(Collectors.toList());
+    public User getByName(String name) {
+        UserDO byName = userRepo.getByName(name);
+        LOG.debug(String.valueOf(byName));
+        return byName;
+    }
 
+    @Override
+    public Optional<? extends User> findByName(String name) {
+        return userRepo.findByName(name);
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return new ArrayList<>(repositoryFasade.get(RoleRepo.class).findAll());
     }
 }

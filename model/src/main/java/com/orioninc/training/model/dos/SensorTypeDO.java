@@ -42,7 +42,7 @@ public class SensorTypeDO implements SensorType, Serializable {
     @EqualsAndHashCode.Include
     @Column(length = 48,nullable = false, unique = true)
     private String name;
-    
+
     @Convert(converter = JsonbCapabilityConverter.class)
     @Column(columnDefinition = "jsonb")
     private CapabilityImpl capability;

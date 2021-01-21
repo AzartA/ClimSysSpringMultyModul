@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UserDTO {
     private long id;
-    @NotNull(message = "Login should be present")
+    @NotNull(message = "{login.absent}")
     @Pattern(regexp = "^[0-9a-zA-Z-_]{3,48}$", message = "Login must contain from 3 to 48 letters or digits only")
     private String login;
     @Size(min = 3, max = 48, message = "Name must contain from 3 to 48 symbols")

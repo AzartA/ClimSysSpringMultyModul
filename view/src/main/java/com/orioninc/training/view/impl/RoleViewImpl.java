@@ -1,12 +1,12 @@
 package com.orioninc.training.view.impl;
 
 import com.orioninc.training.model.entities.Entity;
-import com.orioninc.training.model.entities.Role;
-import com.orioninc.training.model.entities.User;
 import com.orioninc.training.view.api.FilterParam;
 import com.orioninc.training.view.api.RoleView;
 import com.orioninc.training.view.api.SortParam;
 import com.orioninc.training.view.api.ViewType;
+import com.orioninc.training.model.entities.Role;
+import com.orioninc.training.model.entities.User;
 
 import java.util.List;
 import java.util.Optional;

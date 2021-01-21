@@ -1,7 +1,7 @@
 package com.orioninc.training.service.impl;
 
+import com.orioninc.training.api.RepositoryFasade;
 import com.orioninc.training.model.entities.Entity;
-import com.orioninc.training.app.api.RepositoryFasade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class EntityService {
     }
 
     List<Entity> getAll(String repoName){
-        return repositoryFasade.get(repoName).findAll().stream().map(entity -> (Entity)entity).collect(Collectors.toList());
+        return repositoryFasade.getRepository(repoName).findAll().stream().map(entity -> (Entity)entity).collect(Collectors.toList());
     }
 
 

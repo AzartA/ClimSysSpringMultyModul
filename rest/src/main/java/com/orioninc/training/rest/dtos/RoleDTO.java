@@ -1,16 +1,10 @@
 package com.orioninc.training.rest.dtos;
 
-import com.orioninc.training.model.dos.UserDO;
-import com.orioninc.training.model.entities.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
 import java.util.Set;
 import java.util.stream.Collectors;
 
