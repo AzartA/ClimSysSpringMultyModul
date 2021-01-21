@@ -1,4 +1,4 @@
-package com.orioninc.training.api;
+package com.orioninc.training;
 
 import com.orioninc.training.model.dos.RoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;

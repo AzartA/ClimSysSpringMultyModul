@@ -1,6 +1,6 @@
 package com.orioninc.training.impl;
 
-import com.orioninc.training.api.RepositoryFasade;
+import com.orioninc.training.RepositoryFasade;
 import com.orioninc.training.model.entities.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;

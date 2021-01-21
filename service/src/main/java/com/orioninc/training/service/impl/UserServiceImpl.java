@@ -1,8 +1,8 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.api.RepositoryFasade;
-import com.orioninc.training.api.RoleRepo;
-import com.orioninc.training.api.UserRepo;
+import com.orioninc.training.RepositoryFasade;
+import com.orioninc.training.RoleRepo;
+import com.orioninc.training.UserRepo;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.model.entities.Role;

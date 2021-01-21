@@ -1,6 +1,6 @@
 package com.orioninc.training.rest.controllersImpl;
 
-import com.orioninc.training.api.UserRepo;
+import com.orioninc.training.UserRepo;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.rest.controllers.UserController;
 import com.orioninc.training.rest.dtos.RoleDTO;

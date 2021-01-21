@@ -1,6 +1,6 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.api.RepositoryFasade;
+import com.orioninc.training.RepositoryFasade;
 import com.orioninc.training.model.entities.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
