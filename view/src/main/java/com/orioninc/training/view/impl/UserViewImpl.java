@@ -8,20 +8,17 @@ import com.orioninc.training.view.api.ViewType;
 import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 @Component
 public class UserViewImpl implements UserView {
-    private UserService userService;
-
-    @Autowired
-    public UserViewImpl(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @Override
     public Optional<? extends User> addSensors(long id, List<Long> sensorIds, User currentUser) {

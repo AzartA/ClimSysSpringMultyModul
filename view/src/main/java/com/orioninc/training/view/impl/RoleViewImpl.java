@@ -7,10 +7,13 @@ import com.orioninc.training.view.api.SortParam;
 import com.orioninc.training.view.api.ViewType;
 import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 public class RoleViewImpl implements RoleView {
 
 

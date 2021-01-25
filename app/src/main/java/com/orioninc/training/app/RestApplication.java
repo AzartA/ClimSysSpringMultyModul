@@ -1,4 +1,4 @@
-package com.orioninc.training;
+package com.orioninc.training.app;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

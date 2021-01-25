@@ -1,4 +1,4 @@
-package com.orioninc.training.shell;
+package com.orioninc.training.app.shell;
 
 import com.orioninc.training.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,17 @@
 package com.orioninc.training.rest.controllersImpl;
 
-import com.orioninc.training.UserRepo;
+import com.orioninc.training.repo.api.RoleRepo;
+import com.orioninc.training.repo.api.UserRepo;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.rest.controllers.UserController;
 import com.orioninc.training.rest.dtos.RoleDTO;
 import com.orioninc.training.rest.dtos.UserDTO;
 import com.orioninc.training.rest.util.Mapper;
+import com.orioninc.training.service.api.EntityService;
 import com.orioninc.training.view.api.UserView;
 
 import com.orioninc.training.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,24 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 @RestController
 @RequestMapping("/users")
 public class UserControllerImpl implements UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserControllerImpl.class);
-    UserView userView;
-    UserService userService;
-    UserRepo userRepo;
-    Mapper mapper;
-    ModelMapper modelMapper;
-
-    @Autowired
-    public UserControllerImpl(UserView userView, UserService userService, UserRepo userRepo, Mapper mapper, ModelMapper modelMapper) {
-        this.userView = userView;
-        this.userService = userService;
-        this.userRepo = userRepo;
-        this.mapper = mapper;
-        this.modelMapper = modelMapper;
-    }
+    private final UserView userView;
+    private final UserService userService;
+    private final EntityService entityService;
+    private final UserRepo userRepo;
+    private final Mapper mapper;
+    private final ModelMapper modelMapper;
 
     public List<UserDTO> all() {
         return mapper.mapList(userView.getAll(),UserDTO.class);
@@ -59,7 +55,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public List<RoleDTO> getRoles() {
-        return mapper.mapList(userView.getRoles(),RoleDTO.class);
+        return mapper.mapList(entityService.getAll(RoleRepo.class),RoleDTO.class);
     }
 
     @Override

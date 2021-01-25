@@ -1,4 +1,4 @@
-package com.orioninc.training.config;
+package com.orioninc.training.app.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

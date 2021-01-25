@@ -1,13 +1,14 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.RepositoryFasade;
-import com.orioninc.training.RoleRepo;
-import com.orioninc.training.UserRepo;
+import com.orioninc.training.repo.api.RepositoryFasade;
+import com.orioninc.training.repo.api.RoleRepo;
+import com.orioninc.training.repo.api.UserRepo;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +24,19 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
+@RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-    private UserRepo userRepo;
-    private RepositoryFasade repositoryFasade;
-
-    @Autowired
-    public UserServiceImpl(UserRepo userRepo, RepositoryFasade repositoryFasade) {
-        this.userRepo = userRepo;
-        this.repositoryFasade = repositoryFasade;
-    }
+    private final UserRepo userRepo;
+    private final RepositoryFasade repositoryFasade;
 
     @Override
     public void initDB() {
         LOG.debug("init DB");
-        UserDO user1 = new UserDO("bob", "Bobby", "bob");
-        UserDO user2 = new UserDO("adm", "Nick", "adm");
+        UserDO user1 = new UserDO("Bobby","bob",  "bob");
+        UserDO user2 = new UserDO("Nick","adm",  "adm");
         user1.setProperties(new HashSet<>(Arrays.asList("mad", "sad")));
         user2.setProperties(new HashSet<>(Arrays.asList("bad", "angry")));
         user2.addRoles(getRole("Admin"));
@@ -56,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll(){
-        return userRepo.findAll().stream().map(uDO -> (User) uDO).collect(Collectors.toList());
+        return new ArrayList<>(userRepo.findAll());
     }
 
     @Override
