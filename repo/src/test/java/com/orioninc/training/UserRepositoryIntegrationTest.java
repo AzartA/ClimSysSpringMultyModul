@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
-
-
+import org.springframework.context.annotation.PropertySource;
 
 //@ExtendWith(SpringExtension.class) //for junit5 instead of @RunWith(SpringRunner.class) in junit4
 @DataJpaTest
@@ -34,10 +32,11 @@ public class UserRepositoryIntegrationTest {
         UserDO found = userRepo.getByName("Nick");
 
         // then
-        Assertions.assertEquals(found.getName(),"Bobby","Wrong user!");
+        Assertions.assertEquals(found.getName(),"Nick","Wrong user!");
     }
 
     @SpringBootApplication
+    @PropertySource("classpath:testapp.properties")
     static class TestConfiguration {
     }
 

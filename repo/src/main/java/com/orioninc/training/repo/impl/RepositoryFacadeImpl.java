@@ -1,6 +1,6 @@
 package com.orioninc.training.repo.impl;
 
-import com.orioninc.training.repo.api.RepositoryFasade;
+import com.orioninc.training.repo.api.RepositoryFacade;
 import com.orioninc.training.model.entities.Entity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 @Service
-public class RepositoryFasadeImpl implements RepositoryFasade {
+public class RepositoryFacadeImpl implements RepositoryFacade {
     private final Map<String, JpaRepository<? extends Entity, Long>> repositories;
 
     public JpaRepository<? extends Entity, Long> getRepository(String repoType) {
@@ -21,6 +21,13 @@ public class RepositoryFasadeImpl implements RepositoryFasade {
     @SuppressWarnings (value="unchecked")
     public <R extends JpaRepository<? extends Entity, Long>> R  get(Class<R> type) {
         return (R) repositories.get(getBeanName(type));
+    }
+
+    @SuppressWarnings (value="unchecked")
+    public <R extends JpaRepository<E, Long>, E extends Entity> R  getByEntity(Class<E> entity) {
+        String entityBeanName = getBeanName(entity);
+        String repoBeanName = entityBeanName+"Repo";
+        return (R) repositories.get(repoBeanName);
     }
 
     private <R> String getBeanName(Class<R>type){

@@ -1,6 +1,6 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.repo.api.RepositoryFasade;
+import com.orioninc.training.repo.api.RepositoryFacade;
 import com.orioninc.training.repo.api.RoleRepo;
 import com.orioninc.training.repo.api.UserRepo;
 import com.orioninc.training.model.dos.RoleDO;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepo userRepo;
-    private final RepositoryFasade repositoryFasade;
+    private final RepositoryFacade repositoryFacade;
 
     @Override
     public void initDB() {
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     private Set<RoleDO> getRole(String... role) {
         Predicate<RoleDO> filter = r -> Arrays.asList(role).contains(r.getName());
-        Function<Predicate<RoleDO>, Set<RoleDO>> getRoles = f -> repositoryFasade.get(RoleRepo.class).findAll()
+        Function<Predicate<RoleDO>, Set<RoleDO>> getRoles = f -> repositoryFacade.get(RoleRepo.class).findAll()
                 .stream()
                 .filter(f)
                 .collect(Collectors.toSet());
@@ -101,6 +101,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Role> getRoles() {
-        return new ArrayList<>(repositoryFasade.get(RoleRepo.class).findAll());
+        return new ArrayList<>(repositoryFacade.get(RoleRepo.class).findAll());
     }
 }

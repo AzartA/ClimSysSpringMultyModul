@@ -1,6 +1,6 @@
 package com.orioninc.training.rest.controllersImpl;
 
-import com.orioninc.training.repo.api.RoleRepo;
+import com.orioninc.training.model.entities.Role;
 import com.orioninc.training.repo.api.UserRepo;
 import com.orioninc.training.model.entities.User;
 import com.orioninc.training.rest.controllers.UserController;
@@ -55,7 +55,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public List<RoleDTO> getRoles() {
-        return mapper.mapList(entityService.getAll(RoleRepo.class),RoleDTO.class);
+        return mapper.mapList(entityService.getAll(Role.class),RoleDTO.class);
     }
 
     @Override

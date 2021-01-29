@@ -1,6 +1,6 @@
 package com.orioninc.training.service.impl;
 
-import com.orioninc.training.repo.api.RepositoryFasade;
+import com.orioninc.training.repo.api.RepositoryFacade;
 import com.orioninc.training.model.entities.Entity;
 import com.orioninc.training.service.api.EntityService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +19,14 @@ import java.util.List;
 @Transactional
 public class EntityServiceImpl implements EntityService {
     private static final Logger LOG = LoggerFactory.getLogger(EntityServiceImpl.class);
-    private final RepositoryFasade repositoryFasade;
+    private final RepositoryFacade repositoryFacade;
 
-    public <R extends JpaRepository<E, Long>, E extends Entity> List<E> getAll(Class<R> entityType){
-        return new ArrayList<>(repositoryFasade.get(entityType).findAll());
+    public <R extends JpaRepository<E, Long>, E extends Entity> List<E> getAllByRepo(Class<R> repoType){
+        return new ArrayList<>(repositoryFacade.get(repoType).findAll());
+    }
+
+    public <E extends Entity> List<E> getAll(Class<E> entityType){
+        return new ArrayList<>(repositoryFacade.getByEntity(entityType).findAll());
     }
 
 
