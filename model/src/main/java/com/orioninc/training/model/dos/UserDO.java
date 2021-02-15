@@ -1,7 +1,7 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model.entities.Sensor;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Sensor;
+import com.orioninc.training.model.api.entities.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +24,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Setter
@@ -63,7 +66,7 @@ public class UserDO implements User, Serializable {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.LAZY )
     @CollectionTable(name = "user_properties",
             joinColumns = @JoinColumn(name = "user_id"))
     private Set<String> properties = new HashSet<>(4);
@@ -110,6 +113,7 @@ public class UserDO implements User, Serializable {
         this.sensors.addAll(sensors);
         sensors.forEach(s -> s.getUsers().add(this));
     }
+
 
     @ToString.Include
     public String sensors() {

@@ -1,13 +1,15 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model.entities.ClimateParameter;
-import com.orioninc.training.model.entities.SensorType;
-import com.orioninc.training.model.entities.Unit;
+
+import com.orioninc.training.model.api.entities.ClimateParameter;
+import com.orioninc.training.model.api.entities.SensorType;
+import com.orioninc.training.model.api.entities.Unit;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

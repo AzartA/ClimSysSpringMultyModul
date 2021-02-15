@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.orioninc.training.model.entities.Measuring;
+import com.orioninc.training.model.api.entities.Measuring;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,7 +62,7 @@ public class MeasuringDO implements Measuring, Serializable {
                 + ", timestamp=" + (timestamp == null ? "null" : timestamp.format(DATE_TIME_FORMATTER))
                 + ", sensor=" + (sensor == null ? "null" : sensor.getName())
                 + ", parameter=" + (parameter == null ? "null" : parameter.getName())
-                + ", value=" + value
+                + ", getValue=" + value
                 + '}';
     }
 }

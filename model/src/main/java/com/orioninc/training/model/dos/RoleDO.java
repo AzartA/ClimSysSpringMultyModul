@@ -1,7 +1,7 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model.entities.Role;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Role;
+import com.orioninc.training.model.api.entities.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

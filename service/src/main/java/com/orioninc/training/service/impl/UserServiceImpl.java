@@ -1,12 +1,14 @@
 package com.orioninc.training.service.impl;
 
+import java.util.*;
+
+import com.orioninc.training.model.api.entities.Role;
+import com.orioninc.training.model.api.entities.User;
+import com.orioninc.training.model.dos.RoleDO;
+import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.repo.api.RepositoryFacade;
 import com.orioninc.training.repo.api.RoleRepo;
 import com.orioninc.training.repo.api.UserRepo;
-import com.orioninc.training.model.dos.RoleDO;
-import com.orioninc.training.model.dos.UserDO;
-import com.orioninc.training.model.entities.Role;
-import com.orioninc.training.model.entities.User;
 import com.orioninc.training.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,16 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-@RequiredArgsConstructor(onConstructor =  @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -35,12 +28,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void initDB() {
         LOG.debug("init DB");
-        UserDO user1 = new UserDO("Bobby","bob",  "bob");
-        UserDO user2 = new UserDO("Nick","adm",  "adm");
+        UserDO user1 = new UserDO("Bobby", "bob", "bob");
+        UserDO user2 = new UserDO("Nick", "adm", "adm");
         user1.setProperties(new HashSet<>(Arrays.asList("mad", "sad")));
         user2.setProperties(new HashSet<>(Arrays.asList("bad", "angry")));
-        user2.addRoles(getRole("Admin"));
-        user1.addRoles(getRole("Operator", "User"));
+        RoleRepo roleRepo = repositoryFacade.getByEntity(RoleDO.class);
+        user2.addRoles(roleRepo.getSetOfRoleDOs("Admin"));
+        user1.addRoles(roleRepo.getSetOfRoleDOs("Operator", "User"));
         userRepo.saveAll(Arrays.asList(user1, user2));
     }
 
@@ -50,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll(){
+    public List<User> getAll() {
         return new ArrayList<>(userRepo.findAll());
     }
 
@@ -62,15 +56,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<? extends User> findUser(Long id) {
         return userRepo.findById(id);
-    }
-
-    private Set<RoleDO> getRole(String... role) {
-        Predicate<RoleDO> filter = r -> Arrays.asList(role).contains(r.getName());
-        Function<Predicate<RoleDO>, Set<RoleDO>> getRoles = f -> repositoryFacade.get(RoleRepo.class).findAll()
-                .stream()
-                .filter(f)
-                .collect(Collectors.toSet());
-        return getRoles.apply(filter);
     }
 
     @Override
@@ -89,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByName(String name) {
-        UserDO byName = userRepo.getByName(name);
+        User byName = userRepo.getByName(name);
         LOG.debug(String.valueOf(byName));
         return byName;
     }

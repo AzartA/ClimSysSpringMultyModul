@@ -1,8 +1,8 @@
 package com.orioninc.training.view.api;
 
 
-import com.orioninc.training.model.entities.Location;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Location;
+import com.orioninc.training.model.api.entities.User;
 
 import java.io.InputStream;
 import java.io.OutputStream;

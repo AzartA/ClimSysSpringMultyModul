@@ -1,9 +1,9 @@
 package com.orioninc.training.model.dos;
 
 import com.orioninc.training.model.converter.JsonbCapabilityConverter;
-import com.orioninc.training.model.entities.ClimateParameter;
-import com.orioninc.training.model.entities.Sensor;
-import com.orioninc.training.model.entities.SensorType;
+import com.orioninc.training.model.api.entities.ClimateParameter;
+import com.orioninc.training.model.api.entities.Sensor;
+import com.orioninc.training.model.api.entities.SensorType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

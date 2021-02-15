@@ -1,12 +1,12 @@
 package com.orioninc.training.view.impl;
 
-import com.orioninc.training.model.entities.Entity;
+import com.orioninc.training.model.api.entities.Entity;
 import com.orioninc.training.view.api.FilterParam;
 import com.orioninc.training.view.api.SortParam;
 import com.orioninc.training.view.api.UserView;
 import com.orioninc.training.view.api.ViewType;
-import com.orioninc.training.model.entities.Role;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Role;
+import com.orioninc.training.model.api.entities.User;
 import com.orioninc.training.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

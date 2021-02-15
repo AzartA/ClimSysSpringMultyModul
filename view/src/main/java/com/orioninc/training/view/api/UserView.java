@@ -1,7 +1,7 @@
 package com.orioninc.training.view.api;
 
-import com.orioninc.training.model.entities.Role;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Role;
+import com.orioninc.training.model.api.entities.User;
 
 import java.util.List;
 import java.util.Optional;

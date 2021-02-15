@@ -1,7 +1,7 @@
 package com.orioninc.training.model.dos;
 
-import com.orioninc.training.model.entities.Sensor;
-import com.orioninc.training.model.entities.User;
+import com.orioninc.training.model.api.entities.Sensor;
+import com.orioninc.training.model.api.entities.User;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
