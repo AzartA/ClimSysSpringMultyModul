@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,6 +40,9 @@ public class UnitDO implements Unit, Serializable {
     public static final String GET_BY_ID = "Units.getById";
     public static final String GET_BY_ID_OR_NAME = "Units.getByIdOrName";
 
+    @Version
+    private  int version;
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
@@ -51,7 +55,7 @@ public class UnitDO implements Unit, Serializable {
     @Column(name = "notation", length = 32)
     private String notation;
 
-    @ManyToMany(mappedBy = "units", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "units", cascade = {CascadeType.MERGE})
     private Set<ClimateParameterDO> climateParameters;
 
     public UnitDO(String name, String notation) {

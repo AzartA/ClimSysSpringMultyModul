@@ -1,0 +1,65 @@
+Hibernate:
+    select
+        count(*) as col_0_0_
+    from
+        userdo userdo0_
+Hibernate:
+    select
+        userdo0_.id as id1_12_,
+        userdo0_.login as login2_12_,
+        userdo0_.name as name3_12_,
+        userdo0_.password as password4_12_
+    from
+        userdo userdo0_
+    where
+        userdo0_.id in (
+            ? , ? , ? , ?
+        )
+Hibernate:
+    delete
+    from
+        user_role_set
+    where
+        (
+            users_id
+        ) in (
+            select
+                id
+            from
+                userdo
+            where
+                id=?
+                or id=?
+                or id=?
+                or id=?
+        )
+Hibernate:
+    delete
+    from
+        user_sensor_set
+    where
+        (
+            users_id
+        ) in (
+            select
+                id
+            from
+                userdo
+            where
+                id=?
+                or id=?
+                or id=?
+                or id=?
+        )
+Hibernate:
+    delete
+    from
+        userdo
+    where
+        id=?
+        or id=?
+        or id=?
+        or id=?
+2021-03-25 10:16:55.218  WARN 24452 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23503
+2021-03-25 10:16:55.218 ERROR 24452 --- [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ОШИБКА: UPDATE или DELETE в таблице "userdo"
+нарушает ограничение внешнего ключа "fkkcjhivssi8nrfi2rrvcnas549" таблицы "user_properties"

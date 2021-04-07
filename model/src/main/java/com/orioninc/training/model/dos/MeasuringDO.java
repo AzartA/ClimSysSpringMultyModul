@@ -11,10 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.orioninc.training.model.api.entities.Measuring;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.Version;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -26,19 +24,23 @@ import static javax.persistence.FetchType.LAZY;
 public class MeasuringDO implements Measuring, Serializable {
     private static final long serialVersionUID = 5474563217901L;
 
+    @Version
+    private  int version;
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
     private long id;
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "measured_on", insertable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime timestamp;
 
-    @ManyToOne(optional = false, fetch = LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(optional = false, fetch = LAZY)
     @JoinColumn(name = "sensor")
     private SensorDO sensor;
 
-    @ManyToOne(optional = false, fetch = LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(optional = false, fetch = LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "parameter")
     private ClimateParameterDO parameter;
 

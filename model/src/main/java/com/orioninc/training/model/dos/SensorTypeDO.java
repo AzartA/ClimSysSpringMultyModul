@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,6 +34,9 @@ import java.util.stream.Collectors;
 public class SensorTypeDO implements SensorType, Serializable {
     private static final long serialVersionUID = 5474563217896L;
 
+    @Version
+    private  int version;
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
@@ -53,7 +56,7 @@ public class SensorTypeDO implements SensorType, Serializable {
     @OneToMany(mappedBy = "type", cascade = {CascadeType.ALL})
     private Set<SensorDO> sensors;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "SENSOR_PARAMETER_SET")
     private Set<ClimateParameterDO> parameters;
 

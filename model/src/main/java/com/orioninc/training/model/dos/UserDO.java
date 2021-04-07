@@ -1,28 +1,22 @@
 package com.orioninc.training.model.dos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.orioninc.training.model.api.entities.Sensor;
 import com.orioninc.training.model.api.entities.User;
+import com.orioninc.training.model.converter.DTOSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.Version;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,9 +32,6 @@ import java.util.stream.Collectors;
 @ToString
 @Entity
 @NamedQueries({
-        @NamedQuery(name = UserDO.GET_ALL, query = "SELECT u FROM UserDO AS u"),
-        @NamedQuery(name = UserDO.GET_BY_LOGIN, query = "SELECT u FROM UserDO AS u WHERE u.login = :login"),
-        @NamedQuery(name = UserDO.GET_BY_ID, query = "SELECT u FROM UserDO AS u WHERE u.id = :id"),
         @NamedQuery(name = UserDO.GET_BY_ID_OR_LOGIN, query = "SELECT u FROM UserDO AS u WHERE u.id = :id OR u.login = :login")
 })
 public class UserDO implements User, Serializable {
@@ -49,6 +40,9 @@ public class UserDO implements User, Serializable {
     public static final String GET_BY_LOGIN = "Users.getByLogin";
     public static final String GET_BY_ID = "Users.getById";
     public static final String GET_BY_ID_OR_LOGIN = "Users.getByIdOrLogin";
+
+    @Version
+    private  int version;
 
     @EqualsAndHashCode.Include
     @Id
@@ -67,16 +61,18 @@ public class UserDO implements User, Serializable {
     private String password;
 
     @ElementCollection(fetch = FetchType.LAZY )
-    @CollectionTable(name = "user_properties",
-            joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_properties")
+    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<String> properties = new HashSet<>(4);
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "USER_SENSOR_SET")
     private Set<SensorDO> sensors = new HashSet<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLE_SET")
+    @JsonSerialize(using = DTOSerializer.class)
     private Set<RoleDO> roles = new HashSet<>();
 
     public UserDO(User user) {
@@ -124,6 +120,22 @@ public class UserDO implements User, Serializable {
     public String roles() {
         return "[" + roles.stream().map(RoleDO::getName).collect(Collectors.joining(",")) + "]";
     }
+
+    /*private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        out.writeLong(id);
+        out.writeObject(name);
+        out.writeObject(login);
+        out.writeObject(roles);
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        id = in.readLong();
+        name = (String) in.readObject();
+        login = (String) in.readObject();
+        roles = (Set<RoleDO>) in.readObject();
+    }*/
+
+
 
 
 }

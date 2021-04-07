@@ -17,6 +17,12 @@ public class FilterImpl implements Filter {
     private Operator operation;
     private String value;
 
+    public FilterImpl(Filter filter) {
+        this.field = filter.getField();
+        this.operation = filter.getOperation();
+        this.value = filter.getValue();
+    }
+
     public List<String> getValueList() {
         return Arrays.asList(value.split(DELIMITER));
     }

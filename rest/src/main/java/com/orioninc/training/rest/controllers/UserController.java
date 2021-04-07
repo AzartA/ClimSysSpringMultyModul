@@ -3,33 +3,27 @@ package com.orioninc.training.rest.controllers;
 import com.orioninc.training.rest.dtos.RoleDTO;
 import com.orioninc.training.rest.dtos.UserDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/users")
 public interface UserController {
 
     @GetMapping
-    List<UserDTO> all();
+    ResponseEntity<List<UserDTO>> getAll();
 
     @GetMapping("/{id}")
-    UserDTO getUser(@PathVariable Long id);
+    ResponseEntity<UserDTO> get(@PathVariable Long id);
 
-    @GetMapping("/{id}/find")
-    ResponseEntity<UserDTO> findUser(@PathVariable Long id);
+    @GetMapping("/{id}/roles")
+    ResponseEntity<Set<RoleDTO>> getRoles(@PathVariable long id);
 
-    @GetMapping("/roles")
-    List<RoleDTO> getRoles();
+    @GetMapping("/name/{name}")
+    ResponseEntity<List<UserDTO>> findByName(@PathVariable String name);
 
-    @GetMapping("/get/{name}")
-    UserDTO getUserByName(@PathVariable String name);
-
-    @GetMapping("/find/{name}")
-    UserDTO findUserByName(@PathVariable String name);
-
+    @GetMapping("/{login}")
+    ResponseEntity<UserDTO> getByLogin(@PathVariable String login);
 
 }

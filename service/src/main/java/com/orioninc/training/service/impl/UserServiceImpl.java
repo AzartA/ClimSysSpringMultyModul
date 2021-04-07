@@ -1,14 +1,15 @@
 package com.orioninc.training.service.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.orioninc.training.model.api.entities.Role;
 import com.orioninc.training.model.api.entities.User;
-import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
 import com.orioninc.training.repo.api.RepositoryFacade;
 import com.orioninc.training.repo.api.RoleRepo;
 import com.orioninc.training.repo.api.UserRepo;
+import com.orioninc.training.service.api.EntityService;
 import com.orioninc.training.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,18 +25,23 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepo userRepo;
     private final RepositoryFacade repositoryFacade;
+    private final EntityService entityService;
 
     @Override
-    public void initDB() {
-        LOG.debug("init DB");
-        UserDO user1 = new UserDO("Bobby", "bob", "bob");
-        UserDO user2 = new UserDO("Nick", "adm", "adm");
-        user1.setProperties(new HashSet<>(Arrays.asList("mad", "sad")));
-        user2.setProperties(new HashSet<>(Arrays.asList("bad", "angry")));
-        RoleRepo roleRepo = repositoryFacade.getByEntity(RoleDO.class);
-        user2.addRoles(roleRepo.getSetOfRoleDOs("Admin"));
-        user1.addRoles(roleRepo.getSetOfRoleDOs("Operator", "User"));
-        userRepo.saveAll(Arrays.asList(user1, user2));
+    public void initTwoDemoUsers() {
+        LOG.debug("init 2 demo users");
+        if (userRepo.count() == 0) {
+            UserDO user1 = new UserDO("Bobby", "bob", "bob");
+            UserDO user2 = new UserDO("Nick", "adm", "adm");
+            user1.setProperties(new HashSet<>(Arrays.asList("mad", "sad")));
+            user2.setProperties(new HashSet<>(Arrays.asList("bad", "angry")));
+            RoleRepo roleRepo = repositoryFacade.getByEntity(Role.class);
+            user2.addRoles(roleRepo.getSetOfRoleDOs("Admin"));
+            user1.addRoles(roleRepo.getSetOfRoleDOs("Admin", "Operator"));
+            userRepo.saveAll(Arrays.asList(user1, user2));
+        } else {
+            System.out.println("There are users in the repository:");
+        }
     }
 
     @Override
@@ -49,13 +55,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(Long id) {
-        return userRepo.getOne(id);
+    public Optional<User> getById(Long id) {
+        return entityService.getEntityById(id, User.class);
     }
 
     @Override
-    public Optional<? extends User> findUser(Long id) {
-        return userRepo.findById(id);
+    public Optional<? extends User> getByLogin(String login) {
+        return userRepo.findByLogin(login);
+    }
+
+    @Override
+    public List<User> findByName(String name) {
+        List<User> byName = userRepo.getByName(name);
+        LOG.debug(byName.stream().map(String::valueOf).collect(Collectors.joining("\n", "UsersByName:\n", "---")));
+        return byName;
+    }
+
+    @Override
+    public Set<Role> getRoles(long userId) {
+        RoleRepo roleRepo = repositoryFacade.getByEntity(Role.class);
+        return roleRepo.getByUserId(userId);
     }
 
     @Override
@@ -70,22 +89,5 @@ public class UserServiceImpl implements UserService {
         StringBuilder sb = new StringBuilder();
         userRepo.findAll().forEach(user -> sb.append(user).append("\n"));
         return sb.toString();
-    }
-
-    @Override
-    public User getByName(String name) {
-        User byName = userRepo.getByName(name);
-        LOG.debug(String.valueOf(byName));
-        return byName;
-    }
-
-    @Override
-    public Optional<? extends User> findByName(String name) {
-        return userRepo.findByName(name);
-    }
-
-    @Override
-    public List<Role> getRoles() {
-        return new ArrayList<>(repositoryFacade.get(RoleRepo.class).findAll());
     }
 }

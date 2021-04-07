@@ -1,4 +1,4 @@
-package com.orioninc.training.view.api;
+package com.orioninc.training.model.api;
 
 public interface SortParam {
     String getBy();

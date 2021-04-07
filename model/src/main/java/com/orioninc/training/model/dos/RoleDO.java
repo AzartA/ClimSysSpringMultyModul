@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,9 @@ import java.util.stream.Collectors;
 public class RoleDO implements Role, Serializable {
     private static final long serialVersionUID = 5474563217892L;
 
+    @Version
+    private  int version;
+
     @Id
     @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
@@ -35,7 +39,7 @@ public class RoleDO implements Role, Serializable {
     private String name;
 
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "roles")
     private Set<UserDO> users;
 
     public RoleDO(String name) {

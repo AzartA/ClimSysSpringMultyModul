@@ -1,19 +1,7 @@
-CREATE SEQUENCE public.role_seq
-    INCREMENT 1
-    START 1
-    MINVALUE 1
-    MAXVALUE 9223372036854775807
-    CACHE 1;
+DROP SEQUENCE IF EXISTS public.role_seq;
+CREATE SEQUENCE public.role_seq;
 
-ALTER SEQUENCE public.role_seq
-    OWNER TO postgres;
+DROP SEQUENCE IF EXISTS public.user_seq;
 
-CREATE SEQUENCE public.user_seq
-    INCREMENT 1
-    START 1
-    MINVALUE 1
-    MAXVALUE 9223372036854775807
-    CACHE 1;
+CREATE SEQUENCE public.user_seq;
 
-ALTER SEQUENCE public.user_seq
-    OWNER TO postgres;

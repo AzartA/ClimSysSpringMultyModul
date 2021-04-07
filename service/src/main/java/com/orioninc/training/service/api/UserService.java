@@ -2,6 +2,7 @@ package com.orioninc.training.service.api;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.orioninc.training.model.api.entities.Role;
 import com.orioninc.training.model.api.entities.User;
@@ -9,21 +10,19 @@ import com.orioninc.training.model.api.entities.User;
 public interface UserService {
     List<User> getAll();
 
-    User getUser(Long id);
+    Optional<User> getById(Long id);
 
     Long count();
 
-    void initDB();
+    void initTwoDemoUsers();
 
     void printUsers();
 
     String showUsers();
 
-    User getByName(String name);
+    List<User> findByName(String name);
 
-    Optional<? extends User> findByName(String name);
+    Optional<? extends User> getByLogin(String login);
 
-    Optional<? extends User> findUser(Long id);
-
-    List<Role> getRoles();
+    Set<Role> getRoles(long userId);
 }

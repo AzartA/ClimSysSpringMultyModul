@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,6 +41,9 @@ public class LocationDO implements Location, Serializable {
     public static final String GET_BY_ID = "Locations.getById";
     public static final String GET_BY_ID_OR_NAME = "Locations.getByIdOrName";
 
+    @Version
+    private  int version;
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
@@ -49,7 +53,7 @@ public class LocationDO implements Location, Serializable {
     @Column(name = "name", length = 48, nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "location", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.MERGE}, mappedBy = "location")
     private Set<SensorDO> sensors;
 
     @Column(columnDefinition = "oid")

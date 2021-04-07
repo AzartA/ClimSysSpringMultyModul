@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class UserDTO {
     private long id;
     @NotNull(message = "{login.absent}")
@@ -37,5 +39,6 @@ public class UserDTO {
     public String roles() {
         return "[" + roles.stream().map(EntityDTO::getName).collect(Collectors.joining(",")) + "]";
     }
+
 
 }

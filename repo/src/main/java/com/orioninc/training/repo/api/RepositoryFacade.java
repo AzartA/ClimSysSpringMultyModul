@@ -11,5 +11,6 @@ import java.util.Set;
 public interface RepositoryFacade {
     JpaRepository<? extends Entity, Long> getRepository(String repoType);
     <R extends JpaRepository<? extends Entity, Long>> R get(Class<R> type);
-    <R extends JpaRepository<E, Long>, E extends Entity> R  getByEntity(Class<E> entity);
+    <R extends EntityRepo<E,Y>, E extends Entity, Y extends E> R  getByEntity(Class<E> entity);
+    <R extends EntityRepo<E,Y>, E extends Entity, Y extends E> R  getByDo(Class<Y> entityDo);
 }

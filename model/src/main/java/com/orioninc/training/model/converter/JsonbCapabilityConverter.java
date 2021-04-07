@@ -9,11 +9,11 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class JsonbCapabilityConverter implements AttributeConverter<CapabilityImpl, Object> {
+public class JsonbCapabilityConverter implements AttributeConverter<CapabilityImpl, PGobject> {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public Object convertToDatabaseColumn(CapabilityImpl entity) {
+    public PGobject convertToDatabaseColumn(CapabilityImpl entity) {
         try {
             PGobject out = new PGobject();
             out.setType("jsonb");
@@ -25,10 +25,10 @@ public class JsonbCapabilityConverter implements AttributeConverter<CapabilityIm
     }
 
     @Override
-    public CapabilityImpl convertToEntityAttribute(Object jsonb) {
+    public CapabilityImpl convertToEntityAttribute(PGobject jsonb) {
         try {
 
-            return mapper.readValue(((PGobject) jsonb).getValue(), CapabilityImpl.class);
+            return mapper.readValue(jsonb.getValue(), CapabilityImpl.class);
         } catch (Exception e) {
             throw new IllegalArgumentException("Unable deserialize to entity object from jsonb field ", e);
         }

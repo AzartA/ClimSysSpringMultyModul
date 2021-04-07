@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,6 +34,9 @@ import java.util.stream.Collectors;
 public class SensorDO implements Sensor, Serializable {
     private static final long serialVersionUID = 5474563217894L;
 
+    @Version
+    private  int version;
+
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
@@ -42,7 +46,7 @@ public class SensorDO implements Sensor, Serializable {
     @Column(name = "name", nullable = false, length = 48, unique = true)
     private String name;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "location")
     private LocationDO location;
 
@@ -52,12 +56,11 @@ public class SensorDO implements Sensor, Serializable {
     @Column(name = "y")
     private long y;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "type")
     private SensorTypeDO type;
 
-    @ManyToMany(mappedBy = "sensors", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "sensors")
     private Set<UserDO> users;
 
     @OneToMany(mappedBy = "sensor", cascade = {CascadeType.ALL})
@@ -71,11 +74,6 @@ public class SensorDO implements Sensor, Serializable {
         name = sensor.getName();
         x = sensor.getX();
         y = sensor.getY();
-    }
-
-    public void setType(SensorTypeDO type) {
-        type.getSensors().add(this);
-        this.type = type;
     }
 
     public boolean addUsers(Set<UserDO> users) {

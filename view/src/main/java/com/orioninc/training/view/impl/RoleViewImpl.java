@@ -1,14 +1,16 @@
 package com.orioninc.training.view.impl;
 
+import com.orioninc.training.model.api.Filter;
 import com.orioninc.training.model.api.entities.Entity;
-import com.orioninc.training.view.api.FilterParam;
+import com.orioninc.training.service.api.EntityService;
 import com.orioninc.training.view.api.RoleView;
-import com.orioninc.training.view.api.SortParam;
+import com.orioninc.training.model.api.SortParam;
 import com.orioninc.training.view.api.ViewType;
 import com.orioninc.training.model.api.entities.Role;
 import com.orioninc.training.model.api.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor =  @__(@Autowired))
 public class RoleViewImpl implements RoleView {
 
+    private final EntityService entityService;
 
     @Override
     public Optional<? extends Role> addUsers(long id, List<Long> userIds, User currentUser) {
@@ -33,12 +36,12 @@ public class RoleViewImpl implements RoleView {
     }
 
     @Override
-    public List<? extends Role> getAll(List<FilterParam> filters, List<SortParam> sorts, int pg, int sz, User currentUser) {
+    public Page<Role> getAll(Filter filter, List<SortParam> sorts, int pg, int sz, User currentUser) {
         return null;
     }
 
     @Override
-    public long getCount(List<FilterParam> filters, int pg, int sz, User currentUser) {
+    public long getCount(Filter filter, User currentUser) {
         return 0;
     }
 
@@ -60,6 +63,11 @@ public class RoleViewImpl implements RoleView {
     @Override
     public Optional<? extends Role> delete(long id, User currentUser) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<User> findByName(String name) {
+       return entityService.getEntityByName(name,User.class);
     }
 
     @Override

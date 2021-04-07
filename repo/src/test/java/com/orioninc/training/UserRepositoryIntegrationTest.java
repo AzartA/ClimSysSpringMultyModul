@@ -1,9 +1,9 @@
 package com.orioninc.training;
 
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.orioninc.training.model.api.entities.Role;
 import com.orioninc.training.model.api.entities.User;
 import com.orioninc.training.model.dos.RoleDO;
 import com.orioninc.training.model.dos.UserDO;
@@ -13,12 +13,7 @@ import com.orioninc.training.repo.api.GenericSpecification;
 import com.orioninc.training.repo.api.RoleRepo;
 import com.orioninc.training.repo.api.UserRepo;
 import com.orioninc.training.repo.impl.GenericSpecificationImpl;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +22,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.PropertySource;
 
-//@ExtendWith(SpringExtension.class) //for junit5 instead of @RunWith(SpringRunner.class) in junit4
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DataJpaTest
+
 public class UserRepositoryIntegrationTest {
     private static final Logger LOG = LoggerFactory.getLogger(UserRepositoryIntegrationTest.class);
     @Autowired
@@ -39,20 +35,18 @@ public class UserRepositoryIntegrationTest {
 
     @Autowired
     private RoleRepo roleRepo;
-
-
     private UserDO user1;
     private UserDO user2;
     private UserDO user3;
     private UserDO user4;
 
-    @BeforeEach
+    @BeforeAll
     void init4Users() {
         LOG.debug("Create 4 users for tests");
-        user1 = new UserDO("Bobby","bob2",  "bob2");
-        user2 = new UserDO("Ray","ray",  "ray");
-        user3 = new UserDO("User3","user3",  "user3");
-        user4 = new UserDO("Rayby","rayby",  "rayby");
+        user1 = new UserDO("John", "john", "john");
+        user2 = new UserDO("Ray", "ray", "ray");
+        user3 = new UserDO("Johnny", "johnny", "johnny");
+        user4 = new UserDO("Ray", "ray2", "ray2");
         user1.setProperties(new HashSet<>(Collections.singletonList("sad a little")));
         user2.setProperties(new HashSet<>(Arrays.asList("sad", "angry")));
         user3.setProperties(new HashSet<>(Arrays.asList("good", "crazy")));
@@ -64,12 +58,11 @@ public class UserRepositoryIntegrationTest {
         userRepo.saveAll(Arrays.asList(user1, user2, user3, user4));
     }
 
-    /*@AfterEach
-    void deletingTestUsers(){
+    @AfterAll
+    void deletingTestUsers() {
         LOG.debug("Delete 4 test users");
         userRepo.deleteInBatch(Arrays.asList(user1, user2, user3, user4));
-    };*/
-
+    }
 
     @Test
     public void givenACorrectSetup_thenAnEntityManagerWillBeAvailable() {
@@ -77,51 +70,122 @@ public class UserRepositoryIntegrationTest {
     }
 
     @Test
+    public void deleteUserDeleteIt() {
+        long count = userRepo.count();
+        userRepo.delete(user1);
+        Assertions.assertEquals(count - 1, userRepo.count(), "Demo users are not deleted");
+    }
+
+    @Test
     public void whenFindByName_thenReturnUser() {
-        // when
-        User found = userRepo.getByName("Nick");
-        // then
-        Assertions.assertEquals(found.getName(), "Nick", "Wrong user!");
+        String name = "Ray";
+        List<String> found = userRepo.getByName(name).stream().map(User::getName).collect(Collectors.toList());
+        Assertions.assertAll(
+                "Don't found users!",
+                () -> Assertions.assertEquals(2, found.size()),
+                () -> Assertions.assertEquals(name, found.get(0)),
+                () -> Assertions.assertEquals(name, found.get(1)));
     }
 
     @Test
-    public void towRoles() {
-        Set<RoleDO> found = roleRepo.getSetOfRoleDOs("Operator","User");
-        List<String> foundNames = found.stream().map(RoleDO::getName).collect(Collectors.toList());
-        Assertions.assertAll("Wrong list of roles!",
-                () -> Assertions.assertEquals(found.size(), 2),
-                () -> Assertions.assertTrue(foundNames.contains("Operator")),
-                () -> Assertions.assertTrue(foundNames.contains("User"))
-                );
+    public void getSetOfRoleDOsReturnRoles() {
+        Set<RoleDO> found = roleRepo.getSetOfRoleDOs("Operator", "User");
+        List<String> foundRoles = found.stream().map(RoleDO::getName).collect(Collectors.toList());
+        Assertions.assertAll(
+                "Wrong list of roles!",
+                () -> Assertions.assertEquals(2, found.size()),
+                () -> Assertions.assertTrue(foundRoles.contains("Operator")),
+                () -> Assertions.assertTrue(foundRoles.contains("User")));
     }
 
     @Test
-    public void givenLast_whenGettingListOfUsers_thenCorrect() {
-        GenericSpecification<UserDO> spec =
-                new GenericSpecificationImpl<>(new FilterImpl("name", Operator.getOperator("="), "Nick"));
-        List<UserDO> results = userRepo.findAll(spec);
-        User found = userRepo.getByName("Nick");
-        Assertions.assertAll("Only one Nick in filter",
-                () -> Assertions.assertEquals(results.get(0),found),
-                () -> Assertions.assertEquals(results.size(), 1)
-        );
+    public void getAllUsersWithNameFilterReturnIt() {
+        String name = "John";
+        GenericSpecification<User> spec =
+                new GenericSpecificationImpl<>(new FilterImpl("name", Operator.getOperator("="), name));
+        List<User> results = userRepo.findAll(spec);
+        List<User> found = userRepo.getByName(name);
+        Assertions.assertAll(
+                "Must be one John!",
+                () -> Assertions.assertIterableEquals(results, found),
+                () -> Assertions.assertEquals(results.size(), 1));
     }
 
     @Test
-    void givenFiltredUsers() {
-        GenericSpecification<UserDO> spec =
-                new GenericSpecificationImpl<>(new FilterImpl("name", Operator.LIKE, "Ray"));
-        List<UserDO> results = userRepo.findAll(spec);
-        Assertions.assertAll("Two *Ray* in filter",
+    void getAllUsersWithNameLikeReturnTwoUsers() {
+        String name = "John";
+        GenericSpecification<User> spec =
+                new GenericSpecificationImpl<>(new FilterImpl("name", Operator.LIKE, name));
+        List<User> results = userRepo.findAll(spec);
+        Assertions.assertAll(
+                "Must be two *John* in filter",
                 () -> Assertions.assertEquals(results.size(), 2),
-                () -> Assertions.assertTrue(results.get(0).getName().contains("Ray")),
-                () -> Assertions.assertTrue(results.get(1).getName().contains("Ray"))
+                () -> Assertions.assertTrue(results.get(0).getName().contains(name)),
+                () -> Assertions.assertTrue(results.get(1).getName().contains(name)));
+    }
+
+    @Test
+    public void SerializeDeserializeUserByJavaStandard() throws IOException, ClassNotFoundException {
+        RoleDO tester = new RoleDO("Tester");
+        UserDO userA = new UserDO("Aaa", "aaa", "aaa");
+        UserDO userB = new UserDO("Bbb", "bbb", "bbb");
+        userA.setRoles(new HashSet<>(Collections.singletonList(tester)));
+        userB.setRoles(new HashSet<>(Collections.singletonList(tester)));
+
+        Object nullObject = new NullObject();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+        objectOutputStream.writeObject(userA);
+        objectOutputStream.writeObject(userB);
+        //objectOutputStream.writeObject(userA.getRoles().iterator().next());
+        //objectOutputStream.writeObject(userB.getRoles().iterator().next());
+        objectOutputStream.writeObject(nullObject);
+        objectOutputStream.flush();
+        objectOutputStream.close();
+
+        ObjectInputStream objectInputStream = new ObjectInputStream(
+                new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+        Object o;
+        List<UserDO> users = new ArrayList<>();
+        List<List<RoleDO>> rolesList = new ArrayList<>();
+        List<RoleDO> roles = new ArrayList<>();
+        while (true) {
+            o = objectInputStream.readObject();
+            if( o instanceof UserDO){
+                users.add((UserDO) o);
+            }else if(o instanceof List) {
+                rolesList.add((ArrayList<RoleDO>) o);
+            }else if(o instanceof RoleDO) {
+                roles.add((RoleDO) o);
+            }else if(o  instanceof NullObject){
+                objectInputStream.close();
+                System.out.println("Users count = " + users.size());
+                System.out.println("Roles count = " + roles.size());
+                break;
+            }
+        }
+        objectInputStream.close();
+
+        Assertions.assertAll(
+                "The Roles of two users must be the same object",
+                () -> Assertions.assertEquals(2, users.size()),
+                () -> Assertions.assertSame(users.get(0).getRoles().iterator().next(), users.get(1).getRoles().iterator().next())//,
+                //() -> Assertions.assertSame(roles.get(0), roles.get(1)),
+                //() -> Assertions.assertSame(users.get(0).getRoles().iterator().next(), roles.get(0))
         );
+
+
+
     }
 
     @SpringBootApplication
     @PropertySource("classpath:testapp.properties")
     static class TestConfiguration {
     }
+
+    static class NullObject implements Serializable{
+
+    }
+
 }
 
